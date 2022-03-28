@@ -1,0 +1,45 @@
+.parent-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  .webcam-wrapper {
+    width: 1000px;
+    height: 563px;
+    position: relative;
+
+    &.error {
+      border: solid .5rem red;
+    }
+
+    &.success {
+      border: solid .5rem green;
+    }
+
+    .task {
+      position: absolute;
+      z-index: 2;
+      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+      top: calc(50% + 175px);
+      left: 50%;
+      transform: translateX(-50%);;
+    }
+
+    .mask {
+      width: 1000px;
+      height: 563px;
+      background: rgba(1,1,1, .5);
+      position: absolute;
+      clip-path: polygon(0% 0%, 0% 100%, calc(50% - 150px) 100%, calc(50% - 150px) calc(50% - 150px), calc(50% + 150px) calc(50% - 150px), calc(50% + 150px) calc(50% + 150px), calc(50% - 150px) calc(50% + 150px), calc(50% - 150px) 100%, 100% 100%, 100% 0%);
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+  }
+
+}
+
+
