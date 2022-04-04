@@ -1,8 +1,15 @@
 <div class="parent-wrapper">
   <div class="webcam-wrapper" [ngClass]="gestureDetected ? 'success' : 'error'">
     <div class="mask"></div>
-    <div class="task" *ngIf="!isSuccess">{{ tasks[activeTaskIndex].title }}</div>
-    <div class="task" *ngIf="isSuccess">Done ✅</div>
+    <div class="loading-wrapper" *ngIf="loading">
+      <h1>Loading</h1>
+    </div>
+    <div *ngIf="!loading">
+      <div class="task" *ngIf="!isSuccess" [ngClass]="tasks[activeTaskIndex].status ? 'text-green' : 'text-white'">
+        {{ tasks[activeTaskIndex].title }}
+      </div>
+      <div class="task" *ngIf="isSuccess">Done ✅</div>
+    </div>
     <ngx-face-detection (noAvailableStream)="noAvailableStream($event)" [stream]="stream" [bioassay]="live"
       [iris]="iris" [debug]="debug"></ngx-face-detection>
   </div>

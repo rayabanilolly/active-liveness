@@ -4,10 +4,20 @@
   align-items: center;
   height: 100vh;
 
+
   .webcam-wrapper {
     width: 1000px;
     height: 563px;
     position: relative;
+
+    .loading-wrapper {
+      position: absolute;
+      top: calc(50% + 175px);
+      z-index: 1;
+      color: yellow;
+      left: 50%;
+      transform: translateX(-50%);
+    }
 
     &.error {
       border: solid .5rem red;
@@ -25,7 +35,15 @@
       font-weight: bold;
       top: calc(50% + 175px);
       left: 50%;
-      transform: translateX(-50%);;
+      transform: translateX(-50%);
+
+      &.text-white {
+        color: white
+      }
+
+      &.text-green {
+        color: green;
+      }
     }
 
     .mask {

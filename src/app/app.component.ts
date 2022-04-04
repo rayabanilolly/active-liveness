@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   title = 'dev-face-camera';
   live = true;
   iris = false;
-  debug = true;
+  debug = false;
   delay = 50;
   photo: string = img;
   rectPhoto: string = img;
@@ -100,13 +100,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.faceDetection.beginDetect$.subscribe(
       () => {
         this.loading = false;
-        console.log('detection started');
-
         this.detectGesture();
       },
       error => {
         console.log('error when detection start');
-
       }
     );
   }
@@ -114,6 +111,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   detectGesture() {
     this.detectFaceGesture = this.faceDetection.detect$
       .subscribe((d) => {
+        console.log('d: ', d);
+
         if (this.activeTaskIndex < this.tasks.length) {
           if (this.tasks[this.activeTaskIndex]) {
             d.gesture.find(obj => {
@@ -131,7 +130,26 @@ export class AppComponent implements OnInit, AfterViewInit {
                   }, 2000)
                 }
                 else {
+                  if (this.detectFaceGesture) {
+                    this.detectFaceGesture.unsubscribe();
+                  }
+
                   this.isSuccess = true;
+
+                  this.photo = img;
+                  this.rectPhoto = img;
+
+                  console.log(this.rect);
+
+                  this.faceDetection.takePhoto(1500, 1500, this.rect, true)
+                    .subscribe(result => {
+
+                      const { photo, rectPhoto } = result;
+                      this.photo = photo || img;
+                      this.rectPhoto = rectPhoto || img;
+
+                      console.log('result: ', result)
+                    });
                 }
               }
             });
@@ -182,14 +200,14 @@ export class AppComponent implements OnInit, AfterViewInit {
       ? {
         x: 0,
         y: 0,
-        width: this.el.nativeElement.clientWidth,
-        height: this.el.nativeElement.clientHeight
+        width: this.el.nativeElement.offsetWidth,
+        height: this.el.nativeElement.offsetHeight
       }
       : {
-        x: this.el.nativeElement.clientWidth / 4,
+        x: this.el.nativeElement.offsetWidth / 4,
         y: 0,
-        width: this.el.nativeElement.clientWidth / 2,
-        height: this.el.nativeElement.clientHeight
+        width: this.el.nativeElement.offsetWidth / 2,
+        height: this.el.nativeElement.offsetHeight
       };
   }
 
